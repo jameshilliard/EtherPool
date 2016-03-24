@@ -113,6 +113,12 @@ module.exports = {
 			res.send(json);
 		});
 	},
+
+	getBlockByNumber : function (res) {
+		ethRPC.getBlockByNumber(function(json){
+			res.send(json.result);
+		});
+	},
 	
 	submitShare : function (req, res, mh){
 		//console.log("submitWork");

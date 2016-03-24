@@ -32,6 +32,9 @@ app.post("/:address/:mh", function(req,res){
 	else if(req.body.method === "eth_submitHashrate"){
 		shareHandler.submitHashrate(req, res);
 	}
+	else if(req.body.method === "eth_getBlockByNumber"){
+		shareHandler.getBlockByNumber(res);
+	}
 	else {
 		res.send("error");
 	}

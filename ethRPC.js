@@ -21,6 +21,23 @@ var getWork = function(cb){
 	req.end();
 }
 
+var getBlockByNumber = function(cb){
+	var callback = function(response) {
+		var str = '';
+		response.on('data', function (chunk) {
+			str += chunk;
+		});
+		response.on('end', function () {
+			var json = JSON.parse(str);
+			cb(json);
+		});
+	}
+	var req = http.request(config.ethServer, callback);
+	//eth_getWork method
+	req.write('{"jsonrpc":"2.0","method":"eth_getBlockByNumber","params":["latest", false],"id":75}');
+	req.end();
+}
+
 var blockNumber = function(cb){
 	var callback = function(response) {
 		var str = '';
@@ -118,6 +135,7 @@ var getBalance = function(address, cb){
 
 module.exports = {
 	getWork : getWork,
+	getBlockByNumber : getBlockByNumber,
 	blockNumber : blockNumber,
 	submitWork : submitWork,
 	sendTransaction : sendTransaction,
