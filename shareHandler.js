@@ -116,7 +116,7 @@ module.exports = {
 
 	getBlockByNumber : function (res) {
 		ethRPC.getBlockByNumber(function(json){
-			res.send(json.result);
+			res.send(json);
 		});
 	},
 	
