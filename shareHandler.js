@@ -92,7 +92,7 @@ var verifyShare = function(nonce, headerHash, mixDigest, target, mh, address){
 }
 
 var calculateTarget = function(mh){
-	var targetSeconds = new BN(30);
+	var targetSeconds = new BN(1);
 	var h = new BN(mh).mul(new BN(1000000));
 	var d = targetSeconds.mul(h);
 
