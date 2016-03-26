@@ -48,6 +48,9 @@ var verifyShare = function(nonce, headerHash, mixDigest, target, mh, address){
 				console.log("result " + result.toString(16));
 				console.log("blockTarget " + blockTarget);
 				console.log("address " + address);
+				console.log("getwork target diff " + ethUtil.TWO_POW256.div(target));
+				console.log("getwork result diff " + ethUtil.TWO_POW256.div(result));
+				console.log("network diff " + ethUtil.TWO_POW256.div(new BN(blockTarget.substring(2), 16)));
 				
 
 				filter.insert(bloomData);
@@ -85,6 +88,19 @@ var verifyShare = function(nonce, headerHash, mixDigest, target, mh, address){
 			else{
 				console.log("Invalid Share");
 				console.log("result " + result.toString(16));
+				console.log("target " + target.toString(16));
+				console.log("blockheaderhash target " + blockHeaderHash.substring(2));
+				console.log("getwork target diff " + ethUtil.TWO_POW256.div(target));
+				console.log("getwork result diff " + ethUtil.TWO_POW256.div(result));
+				if(target.cmp(result) != 1){
+					console.log('target compare error');
+				}
+				if(blockHeaderHash.substring(2) != headerHash){
+					console.log('header hash compare error');
+				}
+				if(filter.contains(bloomData)){
+					console.log('bloomdata error');
+				}
 
 			}
 		});
@@ -121,7 +137,8 @@ module.exports = {
 	},
 	
 	submitShare : function (req, res, mh){
-		//console.log("submitWork");
+		console.log("submitWork");
+		console.log(req.body);
 
 		var BNShareTarget = new BN(calculateTarget(req.params.mh), 16);
 		var mh = mh;
@@ -131,7 +148,7 @@ module.exports = {
 		var headerHash = req.body.params[1].substring(2);
 		var mixDigest = req.body.params[2].substring(2);
 
-		//console.log("nonce " + nonce + " headerHash " + headerHash + " mixDigest " + mixDigest);
+		console.log("nonce " + nonce + " headerHash " + headerHash + " mixDigest " + mixDigest);
 		verifyShare(nonce, headerHash, mixDigest, BNShareTarget, mh, address);
 
 		//send this to appease the mining client
